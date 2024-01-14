@@ -22,7 +22,7 @@ export const useCarsStore = defineStore('cars', () => {
     parseCarsWithLikes(genericCars.value, likedCars.value),
   )
 
-  function toggleCarLike(carId: string) {
+  const toggleCarLike = (carId: string) => {
     const carIndexOf = likedCars.value.indexOf(carId)
     if (carIndexOf > -1) {
       likedCars.value.splice(carIndexOf, 1)
@@ -31,10 +31,6 @@ export const useCarsStore = defineStore('cars', () => {
     }
     const cookieLikes = useCookie('likes')
     cookieLikes.value = JSON.stringify(likedCars.value)
-  }
-
-  function setLikes(likes: string[]) {
-    likedCars.value = likes
   }
 
   const loadPopularCars = async () => {
@@ -85,9 +81,12 @@ export const useCarsStore = defineStore('cars', () => {
     loadGenericCars,
     query,
     queryResultsCars,
+    genericCars,
+    popularCars,
+    currentPage,
+    maximumPages,
     popularCarsWithLikes,
     genericCarsWithLikes,
-    setLikes,
     likedCars,
     toggleCarLike,
     searchCars,
