@@ -7,7 +7,10 @@ export type Car = {
   pricePerDay: number
   id: string
   img: string
-  isLiked?: boolean
+}
+
+export interface CarWithLikes extends Car {
+  isLiked: boolean
 }
 
 type SimpleImage = {
@@ -49,4 +52,14 @@ type FooterChildren = {
 export type FooterMenu = {
   title: string
   children: FooterChildren[]
+}
+
+export type CarReviewData = {
+  stars: number
+  max: number
+}
+
+export type CarExtraItem = {
+  key: string
+  value: string
 }

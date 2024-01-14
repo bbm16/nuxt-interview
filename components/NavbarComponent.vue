@@ -16,10 +16,11 @@
       <img src="/icons/search.svg" class="me-4" alt="search icon" />
       <input
         type="text"
+        ref="inputTarget"
         class="w-full py-3 outline-none"
         placeholder="Search something here"
         v-model="query"
-        @keyup="debounceUpdate"
+        @keyup="() => triggerSearch(query)"
         @focus="openSearch"
       />
       <div
@@ -28,36 +29,30 @@
         data-testid="results"
         class="absolute left-0 top-16 w-full rounded-md border bg-white"
       >
-        <div v-if="!queryCars.length" class="p-4">No Results</div>
+        <div v-if="!queryResultsCars.length" class="p-4">No Results</div>
         <NuxtLink
-          :to="{ name: 'cars-id', params: { id } }"
-          v-for="{ id, name } in queryCars"
-          :key="`query-car-${id}`"
+          v-for="(car, index) in queryResultsCars"
+          :to="{ name: 'cars-id', params: { id: car.id } }"
+          :key="`query-car-${car.id}-${index}`"
           class="block border-b p-4"
           @click="cleanSearch"
         >
-          {{ name }}
+          {{ car.name }}
         </NuxtLink>
       </div>
     </div>
   </nav>
 </template>
 <script setup lang="ts">
-import { useCarsStore } from '@/stores/cars'
-import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
-import { useDebounceFn, onClickOutside } from '@vueuse/core'
+import { onClickOutside } from '@vueuse/core'
+import { useSearch } from '@/composables/useSearch'
 
-const store = useCarsStore()
-const { queryCars } = storeToRefs(store)
+const { triggerSearch, queryResultsCars } = useSearch()
 const searchTarget = ref<HTMLElement>()
+const inputTarget = ref<HTMLInputElement>()
 const query = ref<string>('')
 const isSearchVisible = ref<boolean>(false)
-
-const debounceUpdate = useDebounceFn(() => {
-  store.setQuery(query.value)
-  store.searchCars()
-}, 250)
 
 const openSearch = () => {
   isSearchVisible.value = true
@@ -65,11 +60,14 @@ const openSearch = () => {
 
 const cleanSearch = () => {
   query.value = ''
-  store.setQuery('')
   isSearchVisible.value = false
 }
 
-onClickOutside(searchTarget, () => {
-  isSearchVisible.value = false
-})
+onClickOutside(
+  searchTarget,
+  () => {
+    isSearchVisible.value = false
+  },
+  { ignore: [inputTarget] },
+)
 </script>

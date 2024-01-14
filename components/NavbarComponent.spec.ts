@@ -24,7 +24,7 @@ describe('Given NavbarComponent', () => {
     })
   })
   describe('When typing over the input', () => {
-    it('Then it sets up ONE time the query and request results (checking debounce flow)', async () => {
+    it('Then it sets 3 time the query and request one time the results (checking debounce flow)', async () => {
       vi.useFakeTimers()
       const store = useCarsStore()
       const input = screen.getByRole('textbox')
@@ -36,9 +36,8 @@ describe('Given NavbarComponent', () => {
       fireEvent.keyUp(input)
       fireEvent.keyUp(input)
       expect(screen.getByTestId('results')).toBeDefined()
-      await vi.advanceTimersToNextTimer()
-      expect(store.setQuery).toHaveBeenCalledTimes(1)
-      expect(store.setQuery).toHaveBeenCalledWith('Mercedes')
+      await vi.advanceTimersByTime(2000)
+      expect(store.setQuery).toHaveBeenCalledTimes(3)
       expect(store.searchCars).toHaveBeenCalledTimes(1)
       vi.useRealTimers()
     })
@@ -46,7 +45,7 @@ describe('Given NavbarComponent', () => {
   describe('When there are results', () => {
     it('Then are printed nice in the results box', async () => {
       const store = useCarsStore()
-      store.queryCars = [
+      store.queryResultsCars = [
         {
           name: 'Testing Car',
           type: 'Hybrid',
@@ -56,7 +55,6 @@ describe('Given NavbarComponent', () => {
           pricePerDay: 25,
           id: 'test-car',
           img: 'img',
-          isLiked: true,
         },
       ]
       const input = screen.getByRole('textbox')

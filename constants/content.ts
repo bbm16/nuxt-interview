@@ -1,4 +1,4 @@
-import type { HeaderCard, FooterMenu } from '@/models'
+import type { HeaderCard, FooterMenu, CarReviewData } from '@/models'
 
 export const API_URL = 'https://dm-assignment-commonshare.koyeb.app/api/cars'
 
@@ -84,3 +84,8 @@ export const footerMenus: FooterMenu[] = [
     ],
   },
 ]
+
+export const carReviewData: CarReviewData = {
+  stars: 4,
+  max: 5,
+}

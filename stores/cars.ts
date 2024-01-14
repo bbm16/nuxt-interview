@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { Car, CarResults } from '@/models'
+import type { Car, CarResults, CarWithLikes } from '@/models'
 import { parseCarsWithLikes } from '@/utils/utilities'
 
 export const useCarsStore = defineStore('cars', {
@@ -8,7 +8,7 @@ export const useCarsStore = defineStore('cars', {
     genericCars: [] as Car[],
     likedCars: [] as string[],
     query: '' as string | null,
-    queryCars: [] as Car[],
+    queryResultsCars: [] as Car[],
     currentPage: 1,
     maximumPages: 0,
   }),
@@ -45,11 +45,11 @@ export const useCarsStore = defineStore('cars', {
           query: { query: this.query },
         })
         if (data && data.value) {
-          this.queryCars = data.value.data
+          this.queryResultsCars = data.value.data
         }
       } catch (error) {
         // show the page without popular if API fails
-        this.queryCars = []
+        this.queryResultsCars = []
       }
     },
     toggleCarLike(carId: string) {
@@ -76,10 +76,10 @@ export const useCarsStore = defineStore('cars', {
      * I extracted parsecarsWithLikes, as it's duplicated, and could
      * be a good example of Unit Testing outside of Pinia - just for example
      */
-    popularCarsWithLikes: (state): Car[] => {
+    popularCarsWithLikes: (state): CarWithLikes[] => {
       return parseCarsWithLikes(state.popularCars, state.likedCars)
     },
-    genericCarsWithLikes: (state): Car[] => {
+    genericCarsWithLikes: (state): CarWithLikes[] => {
       return parseCarsWithLikes(state.genericCars, state.likedCars)
     },
   },

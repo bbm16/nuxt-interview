@@ -2,6 +2,10 @@
 
 Hello! I'm Borja B, and that's the project for the Common Share technical task.
 
+![demo](https://raw.githubusercontent.com/bbm16/nuxt-interview/main/public/home-desktop.png)
+
+![demo](https://raw.githubusercontent.com/bbm16/nuxt-interview/main/public/home-mobile.png)
+
 ## Linter & Prettier
 
 For a better readability and understanding of the project I added _Linter & Prettier_ into the project.
@@ -38,6 +42,16 @@ For me testing in crucial in a project, so I decided to develop it through _TDD:
 - E2E: **Nightwatch**
 
 Tests run over this command `yarn test` & `yarn test:e2e`
+
+## Web Vitals
+
+Website is optimized for SEO and current Google standards through web vitals - lighthouse.
+
+![demo](https://raw.githubusercontent.com/bbm16/nuxt-interview/main/public/web-vitals-1.png)
+
+![demo](https://raw.githubusercontent.com/bbm16/nuxt-interview/main/public/web-vitals-2.png)
+
+- The decrease of accessability on the home screen, it's related with the contrast of blues provided on the figma.
 
 ## Deployment
 

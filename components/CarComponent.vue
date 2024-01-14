@@ -42,11 +42,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { Car } from '@/models'
+import type { CarWithLikes } from '@/models'
 
 const emit = defineEmits(['onToggleLike'])
 
 const props = defineProps<{
-  car: Car
+  car: CarWithLikes
 }>()
 </script>

@@ -34,14 +34,14 @@
             <h3 class="text-xl font-semibold md:text-3xl">{{ car!.name }}</h3>
             <div class="mt-2 flex items-center gap-1">
               <img
-                v-for="index in review.stars"
+                v-for="index in carReviewData.stars"
                 :key="index"
                 class="h-3 w-3 md:h-5 md:w-5"
                 src="/icons/star-fill.svg"
                 :alt="`star ${index}`"
               />
               <img
-                v-for="index in review.max - review.stars"
+                v-for="index in carReviewData.max - carReviewData.stars"
                 :key="index"
                 class="h-3 w-3 md:h-5 md:w-5"
                 src="/icons/star-outline.svg"
@@ -66,7 +66,7 @@
         </div>
         <div class="mt-4 grid grid-cols-2 gap-x-12 gap-y-4 md:mt-9">
           <div
-            v-for="(info, key) in carInfo"
+            v-for="(info, key) in carExtras"
             :key="`info-${key}`"
             class="flex justify-between text-xs font-light md:text-xl"
           >
@@ -102,17 +102,22 @@
   </section>
 </template>
 <script setup lang="ts">
-import { API_URL } from '@/constants/content'
 import type { CarDetails, CarNotFound } from '@/models'
 import { useCarsStore } from '@/stores/cars'
 import { useRoute } from 'vue-router'
+import { carReviewData } from '@/constants/content'
+import { getCarExtraItems } from '@/utils/utilities'
 const {
   params: { id },
 } = useRoute()
 
 const store = useCarsStore()
+const { genericCarsWithLikes, likedCars } = storeToRefs(store)
 const { data: car } = await useFetch<CarDetails>(`/api/car-details`, {
   query: { id },
+})
+const isCarLiked = computed(() => {
+  return likedCars.value.includes(car.value!.id)
 })
 
 if (car.value?.status && car.value?.status === 404) {
@@ -122,42 +127,14 @@ if (car.value?.status && car.value?.status === 404) {
   })
 }
 
-useHead({
-  title: `Car - ${car.value?.name}`,
-  meta: [{ name: 'description', content: car.value?.description }],
-})
-
-const { genericCarsWithLikes, likedCars } = storeToRefs(store)
-const isCarLiked = computed(() => {
-  return likedCars.value.includes(car.value!.id)
-})
+const carExtras = getCarExtraItems(car.value!)
 
 if (!genericCarsWithLikes.value.length) {
   await useAsyncData('generic-cars', () => store.loadGenericCars())
 }
 
-// Static temporal data
-const review = {
-  stars: 4,
-  max: 5,
-}
-
-const carInfo = [
-  {
-    key: 'Type Car',
-    value: car?.value?.type,
-  },
-  {
-    key: 'Capacity',
-    value: `${car?.value?.people} People`,
-  },
-  {
-    key: 'Steering',
-    value: `${car?.value?.kindOfTransition}`,
-  },
-  {
-    key: 'Gasoline',
-    value: `${car?.value?.gasolineLiter}L`,
-  },
-]
+useHead({
+  title: `Car - ${car.value?.name}`,
+  meta: [{ name: 'description', content: car.value?.description }],
+})
 </script>
