@@ -40,7 +40,7 @@ For me testing in crucial in a project, so I decided to develop it through _TDD:
 
 - E2E: Not provided yet. But I can do it if needed: **Nightwatch** or **Cypress**
 
-Tests run over this command `yarn test` & `yarn test:e2e`
+Tests run over this command `yarn test`
 
 ## Web Vitals
 
