@@ -25,6 +25,7 @@ Created a Pinia store for managing the cars. Also, I decided to move the fetch's
 ## Search Box
 
 Implemented a re-usable search box which **queries the API through the cars store.** To avoid performance issues, it's doing **debounce** over the keyup's. Also a composable from `vueuse`
+
 for showing - hidding. It's fully tested through Vitest.
 
 ## Pagination
@@ -36,8 +37,10 @@ Implemented pagination to load more results and **hide the button if reached the
 For me testing in crucial in a project, so I decided to develop it through _TDD:_
 
 - Unit Tests: provided by **Vitest.**
-- Integration Tests: **Vitest + Vue Testing Library + Ax**
-- E2E: **Nightwatch**
+
+- Integration Tests: **Vitest + Vue Testing Library** I can add **Ax** if needed.
+
+- E2E: Not provided yet. But I can do it if needed: **Nightwatch** or **Cypress**
 
 Tests run over this command `yarn test` & `yarn test:e2e`
 
@@ -47,21 +50,32 @@ Website is optimized for SEO and current Google standards through web vitals - l
 
 ![demo](https://raw.githubusercontent.com/bbm16/nuxt-interview/main/public/github/web-vitals-1.png)
 
+![demo](https://raw.githubusercontent.com/bbm16/nuxt-interview/main/public/github/web-vitals-2.png)
+
 - The decrease of accessability on the home screen, it's related with the contrast of blues provided on the figma.
 
 ## Deployment
 
-I added some minor **Github CI actions** for ensure code passes the correct standards and deploy to **Netlify.** Here's a live demo of the project: TODO
+I added some minor **Github CI actions** for ensure code passes the correct standards (Build and Tests).
 
-# Comments about the project:
+# Comments / Suggestions about the project:
 
 - **Typescript.** Implemented the maximum possible for the time I have. Created a `@/models` with all the project types.
+
 - I had **issues with CORS** when doing the pagination & search from the client, but I made It work by moving the requests always on the server side of Nuxt ✅
-  - If we want to avoid this, we would need to whitelist my domain and get rid of the Cors issue. Anyway it's a good approach if for example we never want to expose an API KEY from the service.
-  - I didn't do it, but this is a very nice part to implement a caching system through Nitro, for example Redis. That way, our requests for cars (popular, etc), would be much quicker.
+
+- If we want to avoid this, we would need to whitelist my domain and get rid of the Cors issue. Anyway it's a good approach if for example we never want to expose an API KEY from the service.
+
+- I didn't do it, but this is a very nice part to implement a caching system through Nitro, for example Redis. That way, our requests for cars (popular, etc), would be much quicker.
+
 - I implemented **cache for the car likes.**
 
 - I would suggest adding **i18n** translations and have a folder with the JSON's files. Sync with some external service like **Lokalise or Phraseapp.**
+
 - I enterily recommend adding some bug-reporting tool like **Sentry.**
+
 - In this App, ideally there should be a swiper. I didn't do it for the moment (just used some scrollers), just ping me if it's needed and I can create one from scratch.
+
 - There's an improvement for the API. When the car doesn't exist, it should return a 404 error, not a 200 error with a 404 status code on the body - I did a workaround for this.
+
+- A good improvement would be to implement **Nuxt/Image**. A very great tool for optimizing the performance through the images. Suggest to add new image formats like `.webp`
