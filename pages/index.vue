@@ -45,6 +45,7 @@ import { headerCards } from '@/constants/content'
 import { useCarsStore } from '@/stores/cars'
 
 const carsStore = useCarsStore()
+
 const { popularCarsWithLikes, genericCarsWithLikes, isShowMorePagesVisible } =
   storeToRefs(carsStore)
 

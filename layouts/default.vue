@@ -8,16 +8,16 @@
 <script setup lang="ts">
 import { useCarsStore } from '@/stores/cars'
 
-const carsStore = useCarsStore()
+const { loadGenericCars, setLikes } = useCarsStore()
 
 // As this generic cars are used for the moment in all the pages, we can trigger the action on the layout
 // To avoid redundants
-await useAsyncData('generic-cars', () => carsStore.loadGenericCars())
+await useAsyncData('generic-cars', () => loadGenericCars())
 
 onMounted(() => {
   const cookieLikes = useCookie<string[]>('likes')
   if (cookieLikes.value) {
-    carsStore.setLikes(cookieLikes.value)
+    setLikes(cookieLikes.value)
   }
 })
 </script>
