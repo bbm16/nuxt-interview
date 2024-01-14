@@ -24,9 +24,7 @@ Created a Pinia store for managing the cars. Also, I decided to move the fetch's
 
 ## Search Box
 
-Implemented a re-usable search box which **queries the API through the cars store.** To avoid performance issues, it's doing **debounce** over the keyup's. Also a composable from `vueuse`
-
-for showing - hidding. It's fully tested through Vitest.
+Implemented a re-usable search box with a **custom composable** which **queries the API through the cars store.** To avoid performance issues, it's doing **debounce** over the keyup's. I'm using two utilities from `vueuse` for showing - hidding. It's fully tested through Vitest.
 
 ## Pagination
 
