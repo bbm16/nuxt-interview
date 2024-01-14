@@ -2,9 +2,9 @@
 
 Hello! I'm Borja B, and that's the project for the Common Share technical task.
 
-![demo](https://raw.githubusercontent.com/bbm16/nuxt-interview/main/public/home-desktop.png)
+![demo](https://raw.githubusercontent.com/bbm16/nuxt-interview/main/public/github/home-desktop.png)
 
-![demo](https://raw.githubusercontent.com/bbm16/nuxt-interview/main/public/home-mobile.png)
+![demo](https://raw.githubusercontent.com/bbm16/nuxt-interview/main/public/github/home-mobile.png)
 
 ## Linter & Prettier
 
@@ -47,9 +47,9 @@ Tests run over this command `yarn test` & `yarn test:e2e`
 
 Website is optimized for SEO and current Google standards through web vitals - lighthouse.
 
-![demo](https://raw.githubusercontent.com/bbm16/nuxt-interview/main/public/web-vitals-1.png)
+![demo](https://raw.githubusercontent.com/bbm16/nuxt-interview/main/public/github/web-vitals-1.png)
 
-![demo](https://raw.githubusercontent.com/bbm16/nuxt-interview/main/public/web-vitals-2.png)
+![demo](https://raw.githubusercontent.com/bbm16/nuxt-interview/main/public/github/web-vitals-2.png)
 
 - The decrease of accessability on the home screen, it's related with the contrast of blues provided on the figma.
 
