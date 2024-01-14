@@ -37,7 +37,6 @@ describe('Given NavbarComponent', () => {
       fireEvent.keyUp(input)
       expect(screen.getByTestId('results')).toBeDefined()
       await vi.advanceTimersByTime(2000)
-      expect(store.setQuery).toHaveBeenCalledTimes(3)
       expect(store.searchCars).toHaveBeenCalledTimes(1)
       vi.useRealTimers()
     })

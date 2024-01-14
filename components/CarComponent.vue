@@ -44,7 +44,9 @@
 <script setup lang="ts">
 import type { CarWithLikes } from '@/models'
 
-const emit = defineEmits(['onToggleLike'])
+const emit = defineEmits<{
+  (event: 'onToggleLike', id: string): void
+}>()
 
 const props = defineProps<{
   car: CarWithLikes

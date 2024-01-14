@@ -4,19 +4,15 @@ import { useDebounceFn } from '@vueuse/core'
 
 export const useSearch = () => {
   const store = useCarsStore()
-  const { queryResultsCars } = storeToRefs(store)
+  const { queryResultsCars, query } = storeToRefs(store)
 
-  const debounce = useDebounceFn(() => {
+  const triggerSearch = useDebounceFn(() => {
     store.searchCars()
   }, 250)
-
-  const triggerSearch = (query: string) => {
-    store.setQuery(query)
-    debounce()
-  }
 
   return {
     triggerSearch,
     queryResultsCars,
+    query,
   }
 }

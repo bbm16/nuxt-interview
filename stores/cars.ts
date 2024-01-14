@@ -7,7 +7,7 @@ export const useCarsStore = defineStore('cars', {
     popularCars: [] as Car[],
     genericCars: [] as Car[],
     likedCars: [] as string[],
-    query: '' as string | null,
+    query: '' as string,
     queryResultsCars: [] as Car[],
     currentPage: 1,
     maximumPages: 0,
@@ -16,7 +16,7 @@ export const useCarsStore = defineStore('cars', {
     async loadPopularCars() {
       try {
         const { data } = await useFetch<Car[]>('/api/popular-cars')
-        if (data && data.value) {
+        if (data?.value) {
           this.popularCars = data.value
         }
       } catch (error) {
@@ -29,7 +29,7 @@ export const useCarsStore = defineStore('cars', {
         const { data } = await useFetch<CarResults>('/api/generic-cars', {
           query: { page: this.currentPage },
         })
-        if (data && data.value) {
+        if (data?.value) {
           this.genericCars.push(...data.value.data)
           this.currentPage = this.currentPage + 1
           this.maximumPages = data.value.meta.last_page
@@ -44,7 +44,7 @@ export const useCarsStore = defineStore('cars', {
         const { data } = await useFetch<CarResults>('/api/search-cars', {
           query: { query: this.query },
         })
-        if (data && data.value) {
+        if (data?.value) {
           this.queryResultsCars = data.value.data
         }
       } catch (error) {
@@ -65,22 +65,19 @@ export const useCarsStore = defineStore('cars', {
     setLikes(likedCars: string[]) {
       this.likedCars = likedCars
     },
-    setQuery(query: string) {
-      this.query = query
-    },
   },
   getters: {
-    isShowMorePagesVisible: (state): boolean =>
-      state.currentPage < state.maximumPages,
+    isShowMorePagesVisible: ({ currentPage, maximumPages }): boolean =>
+      currentPage < maximumPages,
     /**
-     * I extracted parsecarsWithLikes, as it's duplicated, and could
+     * I extracted parseCarsWithLikes, as it's duplicated, and could
      * be a good example of Unit Testing outside of Pinia - just for example
      */
-    popularCarsWithLikes: (state): CarWithLikes[] => {
-      return parseCarsWithLikes(state.popularCars, state.likedCars)
+    popularCarsWithLikes: ({ popularCars, likedCars }): CarWithLikes[] => {
+      return parseCarsWithLikes(popularCars, likedCars)
     },
-    genericCarsWithLikes: (state): CarWithLikes[] => {
-      return parseCarsWithLikes(state.genericCars, state.likedCars)
+    genericCarsWithLikes: ({ genericCars, likedCars }): CarWithLikes[] => {
+      return parseCarsWithLikes(genericCars, likedCars)
     },
   },
 })

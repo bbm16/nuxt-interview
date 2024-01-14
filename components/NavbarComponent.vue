@@ -20,7 +20,7 @@
         class="w-full py-3 outline-none"
         placeholder="Search something here"
         v-model="query"
-        @keyup="() => triggerSearch(query)"
+        @keyup="triggerSearch"
         @focus="openSearch"
       />
       <div
@@ -35,7 +35,7 @@
           :to="{ name: 'cars-id', params: { id: car.id } }"
           :key="`query-car-${car.id}-${index}`"
           class="block border-b p-4"
-          @click="cleanSearch"
+          @click="closeSearch"
         >
           {{ car.name }}
         </NuxtLink>
@@ -48,26 +48,19 @@ import { ref } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import { useSearch } from '@/composables/useSearch'
 
-const { triggerSearch, queryResultsCars } = useSearch()
+const { triggerSearch, queryResultsCars, query } = useSearch()
 const searchTarget = ref<HTMLElement>()
 const inputTarget = ref<HTMLInputElement>()
-const query = ref<string>('')
 const isSearchVisible = ref<boolean>(false)
 
 const openSearch = () => {
   isSearchVisible.value = true
 }
 
-const cleanSearch = () => {
+const closeSearch = () => {
   query.value = ''
   isSearchVisible.value = false
 }
 
-onClickOutside(
-  searchTarget,
-  () => {
-    isSearchVisible.value = false
-  },
-  { ignore: [inputTarget] },
-)
+onClickOutside(searchTarget, closeSearch, { ignore: [inputTarget] })
 </script>

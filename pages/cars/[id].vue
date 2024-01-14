@@ -102,24 +102,22 @@
   </section>
 </template>
 <script setup lang="ts">
-import type { CarDetails, CarNotFound } from '@/models'
+import type { CarDetails } from '@/models'
 import { useCarsStore } from '@/stores/cars'
 import { useRoute } from 'vue-router'
 import { carReviewData } from '@/constants/content'
 import { getCarExtraItems } from '@/utils/utilities'
-const {
-  params: { id },
-} = useRoute()
 
+const { params: { id }} = useRoute()
 const store = useCarsStore()
 const { genericCarsWithLikes, likedCars } = storeToRefs(store)
+
+// Retrieves the Car from url id
 const { data: car } = await useFetch<CarDetails>(`/api/car-details`, {
   query: { id },
 })
-const isCarLiked = computed(() => {
-  return likedCars.value.includes(car.value!.id)
-})
 
+// Special case as 404 is managed as 200 with 404 code in body.
 if (car.value?.status && car.value?.status === 404) {
   throw showError({
     statusCode: 404,
@@ -127,14 +125,20 @@ if (car.value?.status && car.value?.status === 404) {
   })
 }
 
-const carExtras = getCarExtraItems(car.value!)
-
+// If user jumps directly onto this page,
+// load the generic cars. Otherwise are already loaded.
 if (!genericCarsWithLikes.value.length) {
   await useAsyncData('generic-cars', () => store.loadGenericCars())
 }
 
+// SEO
 useHead({
   title: `Car - ${car.value?.name}`,
   meta: [{ name: 'description', content: car.value?.description }],
+})
+
+const carExtras = getCarExtraItems(car.value!)
+const isCarLiked = computed(() => {
+  return likedCars.value.includes(car.value!.id)
 })
 </script>
